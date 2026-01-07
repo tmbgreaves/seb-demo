@@ -1,0 +1,42 @@
+
+cd /media/sysadmin/VBox_GAs_7.2.4/
+sudo apt install gcc make perl
+sudo ./VBoxLinuxAdditions.run 
+sudo reboot
+wget https://raw.githubusercontent.com/skironDotNet/linux-allow-only-single-ip/refs/heads/master/iptables.txt
+chmod +x iptables.txt 
+sudo ./iptables.txt 
+sudo vim /etc/systemd/resolved.conf 
+
+Add in:
+
+DNS=1.1.1.1
+FallbackDNS=1.0.0.1
+
+sudo systemctl restart systemd-resolved
+sudo apt-get install firefox
+curl -fsSL https://api.github.com/meta | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}[\/][0-9]{1,2}" > github-ips
+for i in `cat github-ips` ; do echo $i ; done
+for address in `curl -fsSL https://api.github.com/meta | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}[\/][0-9]{1,2}"`
+for address in `curl -fsSL https://api.github.com/meta | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}[\/][0-9]{1,2}"` ; do echo $address ; done
+curl -fsSL https://go.microsoft.com/fwlink/?LinkID=760868 > vscode.deb
+sudo apt install ./vscode.deb 
+code
+useradd 
+adduser
+sudo adduser
+sudo useradd --help
+cat /etc/group
+sudo useradd -g 100 -m -d /home/examuser examuser
+id examuser
+passwd examuser
+sudo passwd examuser
+
+sudo vim /etc/sddm.conf
+
+Edit to:
+
+[Autologin]
+User=examuser
+Relogin=true
+
