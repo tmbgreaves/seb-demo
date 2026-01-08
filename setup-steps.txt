@@ -138,13 +138,16 @@ Relogin=true
 
 Save and exit
 
-scp in the iptables rules script
+Fetch the iptables rules script:
+
+wget https://tinyurl.com/sebdemo-iptables
+chmod +x sebdemo-iptables
 
 sudo apt -y install iptables-persistent
 
 Do not save the current rules during install
 
-sudo ./iptables.txt (or whatever your iptables script is called)
+sudo ./sebdemo-iptables (or whatever your iptables script is called)
 
 sudo sh -c '/sbin/iptables-save > /etc/iptables/rules.v4'
 sudo sh -c '/sbin/ip6tables-save > /etc/iptables/rules.v6'
