@@ -1,0 +1,238 @@
+Download the Lubuntu LTS Desktop ISO from
+https://cdimage.ubuntu.com/lubuntu/releases/noble/release/
+
+Download the Virtualbox installer from
+https://www.virtualbox.org/wiki/Downloads
+
+Install and run Virtualbox.
+
+In Virtualbox:
+- Select 'New' to create a new VM
+
+In the drop-down section 'Virtual Machine name and operating system':
+
+- Ensure 'VM Folder' is writeable and has sufficent space to store the VM image
+- Set 'Name' to 'SEB VM'
+- Set 'ISO Image' to the Lubuntu ISO downloaded above
+- Leave 'OS Edition' blank
+- Set 'OS' to 'Linux'
+- Set 'OS Distribution' to 'Ubuntu'
+- Set 'OS Version' to 'Ubuntu (64-bit)'
+- Do not check 'Proceed with Unattended Installation'
+
+In the drop-down section 'Set up unattended guest OS installation' leave
+all as defaults (not relevant for Lubuntu).
+
+In the drop-down section 'Specify virtual hardware':
+
+- Set 'Base Memory' to '4096 MB'
+- Set 'Number of CPUs' to '1'
+- Do not check 'Use EFI'
+
+In the drop-down section 'Specify virtual hard disk':
+
+- Check 'Create a New Virtual Hard Disk'
+- Leave the disk file location at default
+- Set 'Disk Size' to '25GB'
+- Leave all the 'Hard Disk File Type and Format' sections on defaults
+
+'Finish'
+
+Back in the Virtualbox main pane, right click on 'SEB VM', select 'Settings',
+select the 'Display' tab on the left, and change 'Video Memory' to '128MB'.
+
+'OK'
+
+Back in the Virtualbox main pane, ensure the 'SEB VM' is selected, then 'Start' it.
+
+At the first boot screen, press enter to select 'Try or install Lubuntu'.
+
+Select your language ('English (United Kingdom)') and select 'Install Lubuntu'
+
+'Next'
+
+Select 'Region: Europe' and 'Zone: London'
+
+'Next'
+
+Select the appropriate keyboard for the lab.
+
+'Next'
+
+Check both 'Minimal Installation' and 'Download and install updates following
+installation'.
+
+'Next'
+
+Check 'Erase Disk'
+
+'Next'
+
+Set:
+- 'What is your name?' to 'SysAdmin'
+- 'What name do you want to use to log in?' to 'sysadmin'
+- 'What is the name of this computer?' to 'seb-vm'
+
+Now set a memorable and secure password.
+
+'Next'
+
+'Install'
+
+'Install Now'
+
+'Done' when the install completes
+
+'Enter' to reboot
+
+At the login prompt, enter your password
+
+On the VM window, select 'Devices' then 'Insert Guest Additions CD Image'.
+
+'Cancel' the pop-up dialogue in the VM.
+
+In the VM, menu button (lower left corner) then 'System Tools', 'QTerminal'.
+
+In the terminal:
+
+sudo apt update
+(enter your password)
+sudo apt -y install gcc make perl
+cd /media/sysadmin/VBox_GAs_7.2.4/ (or whatever VBox<tab> expands to)
+sudo ./VBoxLinuxAdditions.run
+sudo reboot
+
+At the login prompt, enter your password
+
+In the VM, menu button (lower left corner) then 'System Tools', 'QTerminal'.
+
+sudo vim /etc/systemd/resolved.conf
+(enter your password)
+
+Change the line containing 'DNS=' to 'DNS=1.1.1.1'
+Change the line containing 'FallbackDNS=' to 'FallbackDNS=1.0.0.1'
+
+Save the file and exit
+
+sudo systemctl restart systemd-resolved
+sudo apt -y install firefox
+
+curl -fsSL https://go.microsoft.com/fwlink/?LinkID=760868 > vscode.deb
+sudo apt install ./vscode.deb
+Select 'yes' at the auto-update dialogue
+
+sudo useradd -g 100 -m -d /home/examuser examuser
+
+sudo vim /etc/sddm.conf
+
+Edit to:
+
+[Autologin]
+Session=Lubuntu
+User=examuser
+Relogin=true
+
+Save and exit
+
+scp in the iptables rules script
+
+sudo apt -y install iptables-persistent
+
+Do not save the current rules during install
+
+sudo ./iptables.txt (or whatever your iptables script is called)
+
+sudo sh -c '/sbin/iptables-save > /etc/iptables/rules.v4'
+sudo sh -c '/sbin/ip6tables-save > /etc/iptables/rules.v6'
+
+sudo shutdown -m now
+
+Back in the main Virtualbox window, right click on the new VM, then select
+'Settings...'
+
+In the General->Features tab, set:
+
+Shared Clipboard: Disabled
+Drag-and-drop: Disabled
+
+In the System->Motherboard tab, uncheck:
+
+Boot Device Order (BIOS only): Floppy
+Boot Device Order (BIOS only): Optical
+
+In the 'User Interface' tab, uncheck all options
+
+'OK'
+
+In the Virtualbox user preferences (File->Preferences):
+
+Remove everything from the input window
+
+Now in powershell on the host:
+
+& 'C:\Program Files\Oracle\Virtualbox\VBoxManage.exe' list vms
+
+Note the VM hash
+
+& 'C:\Program Files\Oracle\Virtualbox\VBoxManage.exe' setextradata <vmhash> GUI/Fullscreen true
+& 'C:\Program Files\Oracle\Virtualbox\VBoxManage.exe' setextradata <vmhash> GUI/RestrictedVisualStates Seamless,Scale
+
+In the SEB Configuration tool:
+
+General:
+
+Start URL: Blank
+Set Administrator password
+Allow user to quit SEB without a password
+
+Config file:
+
+Use SEB settings for starting an exam
+Secure as appropriate for the real thing
+
+User interface:
+
+Check 'User full screen mode' and uncheck everything else
+
+Browser:
+
+Mostly irrelevant, check 'Use SEB without browser window'
+
+Down/Uploads:
+
+Uncheck all bar 'Download and open SEB Config files'
+
+Exam:
+
+Not yet considered
+
+Applications:
+
+Active, Win, vboxmanage.exe, VBoxManage
+ Arguments: startvm, VM hash
+ Autostart
+Active, Win, vboxsds.exe, VBoxSDS
+Active, Win, vboxsvc.exe, VBoxSVC
+Active, Win, virtualboxvm.exe, VirtualBoxVM
+
+Path for all is c:\program files\oracle\virtualbox
+
+Network:
+
+Not yet considered
+
+Security:
+
+Create new desktop
+Ignore SEB Service
+Allow clipboard
+
+Registry:
+
+Not used
+
+Hooked keys:
+
+Enable all
+
+Run the SEB configuration file!
