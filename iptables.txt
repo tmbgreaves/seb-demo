@@ -57,6 +57,9 @@ iptables -A INPUT  -m state --state ESTABLISHED,RELATED  -j ACCEPT
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 iptables -A FORWARD -o lo -j ACCEPT
+ip6tables -A INPUT -i lo -j ACCEPT
+ip6tables -A OUTPUT -o lo -j ACCEPT
+ip6tables -A FORWARD -o lo -j ACCEPT
 
 #(INVALID OUT)
 iptables -A OUTPUT -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
