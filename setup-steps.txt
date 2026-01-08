@@ -1,3 +1,7 @@
+These scripts are also available from:
+- https://tinyurl.com/sebdemo-iptables
+- https://tinyurl.com/sebdemo-script
+
 Download the Lubuntu LTS Desktop ISO from
 https://cdimage.ubuntu.com/lubuntu/releases/noble/release/
 
